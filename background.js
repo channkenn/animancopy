@@ -7,15 +7,23 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-  if (info.menuItemId === "removeStrage" && info.srcUrl) {
-    // 画像URLから `/strage` を削除
+  if (info.menuItemId === "removeStrage" && info.srcUrl && tab.id) {
     const modifiedUrl = info.srcUrl.replace("/strage", "");
 
-    // クリップボードにコピー
-    navigator.clipboard.writeText(modifiedUrl).then(() => {
-      console.log("strageなしのURLをコピーしました:", modifiedUrl);
-    }).catch(err => {
-      console.error("コピーに失敗しました:", err);
+    // コンテンツスクリプトを実行してクリップボードにコピー
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      func: copyToClipboard,
+      args: [modifiedUrl] // 引数としてURLを渡す
     });
   }
 });
+
+// クリップボードにコピーする関数（content script用）
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    console.log("URLをクリップボードにコピーしました:", text);
+  }).catch(err => {
+    console.error("クリップボードコピーエラー:", err);
+  });
+}
