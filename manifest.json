@@ -1,16 +1,16 @@
 {
   "manifest_version": 3,
   "name": "Strageなしコピー",
-  "version": "1.0",
+  "version": "1.2",
   "description": "画像URLから/strageを削除してコピー",
   "permissions": [
     "contextMenus",
     "scripting"
   ],
-  "background": {
-    "service_worker": "background.js"
-  },
   "host_permissions": [
     "<all_urls>"
-  ]
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
 }
