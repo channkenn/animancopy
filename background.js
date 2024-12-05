@@ -2,28 +2,23 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: "removeStrage",
     title: "strageなしをコピー",
-    contexts: ["image"]
+    contexts: ["image"] // 画像を右クリックしたときに表示
   });
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-  if (info.menuItemId === "removeStrage" && info.srcUrl && tab.id) {
+  if (info.menuItemId === "removeStrage" && info.srcUrl) {
     const modifiedUrl = info.srcUrl.replace("/strage", "");
 
-    // コンテンツスクリプトを実行してクリップボードにコピー
+    // コンテンツスクリプトでクリップボードにコピー
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
-      func: copyToClipboard,
-      args: [modifiedUrl] // 引数としてURLを渡す
+      func: (url) => {
+        navigator.clipboard.writeText(url)
+          .then(() => console.log("クリップボードにコピーしました:", url))
+          .catch((err) => console.error("クリップボードエラー:", err));
+      },
+      args: [modifiedUrl]
     });
   }
 });
-
-// クリップボードにコピーする関数（content script用）
-function copyToClipboard(text) {
-  navigator.clipboard.writeText(text).then(() => {
-    console.log("URLをクリップボードにコピーしました:", text);
-  }).catch(err => {
-    console.error("クリップボードコピーエラー:", err);
-  });
-}
