@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Strageなしコピー",
+  "version": "1.0",
+  "description": "画像URLから/strageを削除してコピー",
+  "permissions": [
+    "contextMenus",
+    "clipboardWrite"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
