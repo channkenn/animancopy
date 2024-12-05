@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Strageなしコピー",
-  "version": "1.2",
-  "description": "画像URLから/strageを削除してコピー",
+  "name": "storageなしコピー",
+  "version": "1.3",
+  "description": "画像URLから/storageを削除してコピー",
   "permissions": [
     "contextMenus",
     "scripting"
